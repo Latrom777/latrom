@@ -17,12 +17,13 @@
    - `Какие отчёты скачать из Директа для аудита?`
    - `Вот мои выгрузки из Директа и GetCourse — разбери`
    - `Почему у меня дешёвые регистрации, но нет продаж?`
-6. **Knowledge:** загрузите все 9 файлов из папки `knowledge/`: 4 модуля (`minus-words.md`, `placements.md`, `structure.md`, `goals.md`), `data-collection.md`, `data-handling.md`, `audit-checklist.md`, `report-template.md`, `cta.md`.
+6. **Knowledge:** загрузите все 10 файлов из папки `knowledge/`: 4 модуля (`minus-words.md`, `placements.md`, `structure.md`, `goals.md`), `data-collection.md`, `data-handling.md`, `audit-checklist.md`, `report-template.md`, `self-recovery.md`, `cta.md`.
 7. **Capabilities:**
    - ✅ **Code Interpreter & Data Analysis** — обязательно, без него GPT не прочитает xlsx/csv и не посчитает воронку;
    - ✅ **Web Search** — по желанию, нужен для ссылок на Google Таблицы;
    - ✅ **Canvas** — по желанию, удобно для отчёта;
    - ❌ Image Generation — не нужен.
+   - Память ChatGPT, если включена у человека, позволит GPT помнить найденные обходы между чатами этого человека.
 8. **Create** → выберите доступ:
    - **Anyone with the link** — для раздачи по ссылке;
    - **GPT Store** — чтобы GPT находили в поиске (нужен подтверждённый профиль автора; в профиле можно указать сайт siblead.ru).

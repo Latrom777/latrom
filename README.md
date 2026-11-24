@@ -97,6 +97,7 @@ siblead-direct-audit/
     ├── structure.md            # модуль 3: структура кампаний
     ├── goals.md                # модуль 4: цели в кампаниях
     ├── audit-checklist.md      # 46 проверок, пороги, словари, ориентиры воронки
+    ├── self-recovery.md        # самовосстановление при сбоях + «Известные обходы» (дописываются)
     ├── report-template.md      # формат отчёта и выводы по воронке
     └── cta.md                  # блок SibLead.ru: варианты по бюджету (редактируйте здесь)
 ```
@@ -105,5 +106,6 @@ siblead-direct-audit/
 - Собрать все архивы: `./build.sh` → `dist/siblead-direct-audit.zip`, `dist/siblead-direct-audit-chatgpt.zip`, `dist/siblead-direct-audit-gemini.zip`. Скрипт сборки проверяет лимит длины инструкций.
 - Релиз: поднимите `siblead-direct-audit/VERSION` и создайте тег `vX.Y.Z` — GitHub Actions прикрепит архив к релизу.
 - Чтобы поменять проверки, пороги или ориентиры, правьте `audit-checklist.md`.
+- **Как аудитор учится.** При сбое он сам ищет обход по `self-recovery.md` и запоминает его в рамках сессии. В Claude Code он дописывает обходы в «Известные обходы»; в ChatGPT и Claude с памятью — сохраняет в память с согласия человека. Для всех пользователей: в конце отчёта он даёт блок «Для разработчиков аудитора», который люди пересылают в SibLead. Проверенный обход добавляется в «Известные обходы» → `./build.sh` → новый релиз, и обход есть у всех.
 
 Методика частично основана на открытых проектах [ai-hub-open/yandex-direct-audit](https://github.com/ai-hub-open/yandex-direct-audit) (Apache-2.0) и [Silverov/yandex-direct-skill](https://github.com/Silverov/yandex-direct-skill) (MIT). Подробности — в [NOTICE](siblead-direct-audit/NOTICE). Лицензия — MIT. Не является официальным продуктом Яндекса.
