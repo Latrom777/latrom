@@ -1,0 +1,19 @@
+# Тег вида v1.0.0 -> GitHub Release с готовым архивом скилла.
+name: Release skill archive
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./build.sh
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/yandex-direct-audit.zip
+            dist/yandex-direct-audit-*.zip
+          generate_release_notes: true

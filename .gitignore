@@ -3,3 +3,4 @@
 direct_audit_data/
 __pycache__/
 .venv/
+dist/
