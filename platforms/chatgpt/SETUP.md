@@ -17,7 +17,7 @@
    - `Какие отчёты скачать из Директа для аудита?`
    - `Вот мои выгрузки из Директа и GetCourse — разбери`
    - `Почему у меня дешёвые регистрации, но нет продаж?`
-6. **Knowledge:** загрузите 6 файлов из папки `knowledge/`: `audit-checklist.md`, `data-handling.md`, `manual-export.md`, `report-template.md`, `cta.md`, `browser-download.md`.
+6. **Knowledge:** загрузите все 10 файлов из папки `knowledge/`: 4 модуля (`minus-words.md`, `placements.md`, `structure.md`, `goals.md`), `audit-checklist.md`, `data-handling.md`, `manual-export.md`, `report-template.md`, `cta.md`, `browser-download.md`.
 7. **Capabilities:**
    - ✅ **Code Interpreter & Data Analysis** — обязательно, без него GPT не прочитает xlsx/csv и не посчитает воронку;
    - ✅ **Web Search** — по желанию, нужен для ссылок на Google Таблицы;
