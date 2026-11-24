@@ -1,13 +1,32 @@
 #!/usr/bin/env bash
-# Собирает архив скилла для загрузки в Claude: dist/siblead-direct-audit-<версия>.zip
-# Внутри архива — папка siblead-direct-audit/ с SKILL.md (так требует загрузка в Claude).
+# Собирает архивы из одной методики (siblead-direct-audit/references):
+#   dist/siblead-direct-audit.zip          — скилл для Claude (папка с SKILL.md внутри)
+#   dist/siblead-direct-audit-chatgpt.zip  — Custom GPT: instructions.md + knowledge/ + SETUP.md
+#   dist/siblead-direct-audit-gemini.zip   — Gem:        instructions.md + knowledge/ + SETUP.md
 set -euo pipefail
 cd "$(dirname "$0")"
 VERSION=$(cat siblead-direct-audit/VERSION)
-mkdir -p dist
-OUT="dist/siblead-direct-audit-${VERSION}.zip"
-rm -f "$OUT" dist/siblead-direct-audit.zip
-zip -rq "$OUT" siblead-direct-audit -x '*/__pycache__/*' '*.pyc' '*/.env' '*/direct_audit_data/*' '*.DS_Store'
-cp "$OUT" dist/siblead-direct-audit.zip
-echo "$OUT"
-unzip -l "$OUT"
+rm -rf dist && mkdir -p dist
+EXCL=(-x '*.DS_Store')
+
+# Claude
+zip -rq "dist/siblead-direct-audit-${VERSION}.zip" siblead-direct-audit "${EXCL[@]}"
+cp "dist/siblead-direct-audit-${VERSION}.zip" dist/siblead-direct-audit.zip
+
+# ChatGPT / Gemini
+LIMIT=8000
+CHARS=$(python3 -c "import sys;print(len(open('platforms/instructions.md',encoding='utf-8').read()))")
+if [ "$CHARS" -gt "$LIMIT" ]; then echo "platforms/instructions.md: $CHARS символов > $LIMIT (лимит Custom GPT)"; exit 1; fi
+for P in chatgpt gemini; do
+  D="dist/build/siblead-direct-audit-$P"
+  mkdir -p "$D/knowledge"
+  cp platforms/instructions.md "$D/instructions.md"
+  cp "platforms/$P/SETUP.md" "$D/SETUP.md"
+  cp siblead-direct-audit/references/*.md "$D/knowledge/"
+  cp siblead-direct-audit/LICENSE siblead-direct-audit/NOTICE "$D/"
+  (cd dist/build && zip -rq "../siblead-direct-audit-$P-${VERSION}.zip" "siblead-direct-audit-$P" "${EXCL[@]}")
+  cp "dist/siblead-direct-audit-$P-${VERSION}.zip" "dist/siblead-direct-audit-$P.zip"
+done
+rm -rf dist/build
+echo "instructions.md: $CHARS / $LIMIT символов"
+ls -1 dist

@@ -26,6 +26,12 @@
 
 **Claude Code.** Распакуйте архив в `~/.claude/skills/`, чтобы получилось `~/.claude/skills/siblead-direct-audit/SKILL.md`.
 
+**ChatGPT или Gemini.** Есть версии для Custom GPT и Gemini Gem — та же методика:
+- [⬇ siblead-direct-audit-chatgpt.zip](../../releases/latest/download/siblead-direct-audit-chatgpt.zip)
+- [⬇ siblead-direct-audit-gemini.zip](../../releases/latest/download/siblead-direct-audit-gemini.zip)
+
+Внутри — `SETUP.md` с пошаговой настройкой: куда вставить инструкции, какие файлы загрузить в «Знания», что включить.
+
 ### 3. Напишите в новом чате
 
 > Сделай аудит моего Яндекс Директа
@@ -91,7 +97,8 @@ siblead-direct-audit/
     └── cta.md                  # блок SibLead.ru: варианты по бюджету (редактируйте здесь)
 ```
 
-- Собрать архив: `./build.sh` → `dist/siblead-direct-audit.zip`.
+- Версии для ChatGPT и Gemini: `platforms/instructions.md` (общие инструкции, лимит Custom GPT — 8000 символов) и `platforms/<платформа>/SETUP.md`. Файлы знаний — те же `references/*.md`.
+- Собрать все архивы: `./build.sh` → `dist/siblead-direct-audit.zip`, `dist/siblead-direct-audit-chatgpt.zip`, `dist/siblead-direct-audit-gemini.zip`. Скрипт сборки проверяет лимит длины инструкций.
 - Релиз: поднимите `siblead-direct-audit/VERSION` и создайте тег `vX.Y.Z` — GitHub Actions прикрепит архив к релизу.
 - Чтобы поменять проверки, пороги или ориентиры, правьте `audit-checklist.md`.
 
