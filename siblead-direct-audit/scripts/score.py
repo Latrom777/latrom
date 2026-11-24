@@ -99,7 +99,7 @@ def main() -> None:
         s = "нет данных" if c["score"] is None else f"{c['score']}/100" + (" (оценка неполная)" if c["incomplete"] else "")
         print(f"| {c['name']} | {weights[code]:.0f}% | {s} | {', '.join(c['fails']) or '—'} | {', '.join(c['warns']) or '—'} |")
     if "P" in out["categories"] and out["categories"]["P"]["score"] is None:
-        print("\n_Оценка без учёта продаж: файл продаж не предоставлен, категория «Продажи и окупаемость» не оценивалась._")
+        print("\n_Оценка без учёта продаж: нет данных воронки и продаж, категория «Воронка и продажи» не оценивалась._")
     if total == 0:
         print("\nНи одна проверка не оценена — оценка не имеет смысла.")
     if unknown:
