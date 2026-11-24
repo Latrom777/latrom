@@ -1,3 +1,0 @@
-requests>=2.28
-# для браузерного помощника setup_access.py (Python >= 3.11):
-# browser-use>=1.0

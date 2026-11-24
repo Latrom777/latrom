@@ -1,0 +1,15 @@
+SibLead Direct Audit — скилл аудита Яндекс Директа от SibLead.ru (https://siblead.ru).
+Лицензия: MIT (см. LICENSE).
+
+Методика аудита (references/audit-checklist.md) частично основана на открытых проектах.
+Правила пересказаны и адаптированы, исходный код не копировался:
+
+- ai-hub-open/yandex-direct-audit — https://github.com/ai-hub-open/yandex-direct-audit
+  Apache License 2.0. Использованы идеи: пороги минимума данных, пороги по tCPA,
+  словари мусорных площадок и нецелевых запросов, признаки фрода в РСЯ.
+
+- Silverov/yandex-direct-skill — https://github.com/Silverov/yandex-direct-skill
+  MIT License. Использованы идеи: схема оценки (статусы, множители важности,
+  веса категорий, грейды A–F), часть проверок ЕПК и настроек.
+
+Не является официальным продуктом Яндекса.

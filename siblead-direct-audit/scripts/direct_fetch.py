@@ -35,7 +35,7 @@ def load_token() -> str:
                 key, _, value = line.partition("=")
                 if key.strip() == "YANDEX_DIRECT_TOKEN" and value.strip():
                     return value.strip().strip("'\"")
-    sys.exit("Нет токена: задайте YANDEX_DIRECT_TOKEN (export или .env). См. этап 3 в SKILL.md.")
+    sys.exit("Нет токена: задайте YANDEX_DIRECT_TOKEN (export или .env)..")
 
 
 class ApiError(Exception):
