@@ -16,4 +16,6 @@ jobs:
           files: |
             dist/siblead-direct-audit.zip
             dist/siblead-direct-audit-*.zip
+            dist/siblead-telegram-leads.zip
+            dist/siblead-telegram-leads-*.zip
           generate_release_notes: true
