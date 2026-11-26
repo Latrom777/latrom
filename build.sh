@@ -4,6 +4,7 @@
 #   dist/siblead-direct-audit-chatgpt.zip  — Custom GPT: instructions.md + knowledge/ + SETUP.md
 #   dist/siblead-direct-audit-gemini.zip   — Gem:        instructions.md + knowledge/ + SETUP.md
 #   dist/siblead-telegram-leads.zip        — скилл для Claude: база лидов из выгрузки Telegram
+#   dist/siblead-chat-control.zip          — скилл для Claude: контроль проектов по чатам
 set -euo pipefail
 cd "$(dirname "$0")"
 VERSION=$(cat siblead-direct-audit/VERSION)
@@ -34,6 +35,11 @@ rm -rf dist/build
 TGV=$(cat siblead-telegram-leads/VERSION)
 zip -rq "dist/siblead-telegram-leads-${TGV}.zip" siblead-telegram-leads "${EXCL[@]}"
 cp "dist/siblead-telegram-leads-${TGV}.zip" dist/siblead-telegram-leads.zip
+
+# Chat control (Claude)
+CCV=$(cat siblead-chat-control/VERSION)
+zip -rq "dist/siblead-chat-control-${CCV}.zip" siblead-chat-control "${EXCL[@]}"
+cp "dist/siblead-chat-control-${CCV}.zip" dist/siblead-chat-control.zip
 
 echo "instructions.md: $CHARS / $LIMIT символов"
 ls -1 dist
