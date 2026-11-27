@@ -23,6 +23,8 @@ for P in chatgpt gemini; do
   cp platforms/instructions.md "$D/instructions.md"
   cp "platforms/$P/SETUP.md" "$D/SETUP.md"
   cp siblead-direct-audit/references/*.md "$D/knowledge/"
+  # Gem: лимит 10 файлов знаний и нет сборки PDF из HTML — шаблон только для ChatGPT
+  [ "$P" = chatgpt ] && cp siblead-direct-audit/references/report.html "$D/knowledge/"
   cp siblead-direct-audit/LICENSE siblead-direct-audit/NOTICE "$D/"
   (cd dist/build && zip -rq "../siblead-direct-audit-$P-${VERSION}.zip" "siblead-direct-audit-$P" "${EXCL[@]}")
   cp "dist/siblead-direct-audit-$P-${VERSION}.zip" "dist/siblead-direct-audit-$P.zip"

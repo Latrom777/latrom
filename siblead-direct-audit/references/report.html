@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Аудит Яндекс Директа — {{Школа}}</title>
+<!--
+  ШАБЛОН PDF-ОТЧЁТА SibLead. Правила заполнения — в report-template.md, раздел «PDF».
+  • Меняй только текст и повторяющиеся строки (<tr>, <li>, .bar-row). Классы и CSS не трогай.
+  • Всё в {{…}} заменить. Пустой раздел (нет данных) — удалить целиком, не оставлять заглушек.
+  • Статус: класс ok / warn / bad (зелёный / жёлтый / красный). Без эмодзи.
+  • Ширина полосы: style="--w:NN%" — доля от максимума в этом блоке.
+-->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#121417; --ink-2:#4A4F57; --ink-3:#8A9099; --line:#E3E5E8; --paper:#FFFFFF; --tint:#F5F6F7;
+    --accent:#2B59FF; --ok:#1E9E5A; --warn:#D9971E; --bad:#D9443B;
+    --sans:"Inter","Manrope","PT Sans","Helvetica Neue",Arial,"DejaVu Sans",sans-serif;
+    --mono:"JetBrains Mono","DejaVu Sans Mono",Menlo,Consolas,monospace;
+  }
+  @page{ size:A4; margin:16mm 16mm 18mm; @bottom-right{ content:counter(page); font:9pt var(--sans); color:#8A9099; } }
+  *{ box-sizing:border-box; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font:10pt/1.5 var(--sans); font-feature-settings:"tnum" 1,"cv11" 1; }
+  h1,h2,h3{ margin:0; font-weight:700; letter-spacing:-0.01em; }
+  h2{ font-size:15pt; margin:0 0 4mm; padding-top:2mm; }
+  h3{ font-size:11pt; margin:5mm 0 2mm; }
+  p{ margin:0 0 2.5mm; }
+  .muted{ color:var(--ink-2); } .small{ font-size:8.5pt; color:var(--ink-3); }
+  .num{ font-variant-numeric:tabular-nums; white-space:nowrap; }
+  section{ margin:0 0 9mm; break-inside:auto; }
+  .page{ break-before:page; }
+  .keep{ break-inside:avoid; }
+  h2, h3, .kicker{ break-after:avoid; }
+  .kicker{ font-size:8pt; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); margin-bottom:2mm; }
+
+  /* обложка */
+  .cover{ height:259mm; display:flex; flex-direction:column; }
+  .brandbar{ display:flex; justify-content:space-between; align-items:center; font-size:8.5pt; color:var(--ink-3); border-bottom:1px solid var(--line); padding-bottom:3mm; }
+  .brandbar b{ color:var(--ink); font-weight:700; letter-spacing:.02em; }
+  .cover h1{ font-size:30pt; line-height:1.08; margin:22mm 0 3mm; letter-spacing:-0.025em; }
+  .cover .meta{ color:var(--ink-2); font-size:10.5pt; }
+  .score{ display:flex; align-items:flex-end; gap:8mm; margin:16mm 0 10mm; }
+  .score .big{ font-size:84pt; font-weight:800; line-height:.85; letter-spacing:-0.04em; }
+  .score .big span{ font-size:24pt; font-weight:600; color:var(--ink-3); letter-spacing:0; }
+  .grade{ display:inline-block; font-size:11pt; font-weight:700; padding:1.2mm 3mm; border-radius:1.5mm; color:#fff; }
+  .grade.ok{ background:var(--ok); } .grade.warn{ background:var(--warn); } .grade.bad{ background:var(--bad); }
+  .score .label{ font-size:10.5pt; color:var(--ink-2); margin-top:2mm; }
+  .kpis{ display:grid; grid-template-columns:repeat(3,1fr); border-top:2px solid var(--ink); }
+  .kpi{ padding:4mm 4mm 0 0; }
+  .kpi + .kpi{ padding-left:4mm; border-left:1px solid var(--line); }
+  .kpi .v{ font-size:19pt; font-weight:700; letter-spacing:-0.02em; }
+  .kpi .v.bad{ color:var(--bad); } .kpi .v.ok{ color:var(--ok); }
+  .kpi .k{ font-size:8.5pt; color:var(--ink-3); }
+  .summary{ margin-top:9mm; font-size:12.5pt; line-height:1.45; max-width:150mm; }
+  .toc{ margin-top:auto; display:grid; grid-template-columns:repeat(4,1fr); gap:0 4mm; border-top:1px solid var(--line); padding-top:3mm; font-size:8.5pt; color:var(--ink-2); }
+  .toc div{ padding:1mm 0; } .toc b{ display:block; font-size:7.5pt; color:var(--ink-3); font-weight:600; letter-spacing:.06em; }
+
+  /* таблицы */
+  table{ width:100%; border-collapse:collapse; font-size:9pt; }
+  th{ text-align:left; font-weight:600; font-size:7.8pt; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-3); padding:0 2mm 1.8mm; border-bottom:1px solid var(--ink); }
+  td{ padding:1.9mm 2mm; border-bottom:1px solid var(--line); vertical-align:top; }
+  th:first-child, td:first-child{ padding-left:0; }
+  td.r, th.r{ text-align:right; }
+  tr{ break-inside:avoid; }
+  .dot{ display:inline-block; width:2.2mm; height:2.2mm; border-radius:50%; margin-right:1.6mm; vertical-align:.2mm; }
+  .dot.ok{ background:var(--ok); } .dot.warn{ background:var(--warn); } .dot.bad{ background:var(--bad); }
+  .ids{ font-family:var(--mono); font-size:8pt; color:var(--ink-2); }
+
+  /* полосы: категории и воронка */
+  .bar{ position:relative; height:2.2mm; background:var(--tint); border-radius:1mm; min-width:30mm; }
+  .bar i{ position:absolute; inset:0 auto 0 0; width:var(--w); border-radius:1mm; background:var(--ink); }
+  .bar.ok i{ background:var(--ok); } .bar.warn i{ background:var(--warn); } .bar.bad i{ background:var(--bad); }
+  .funnel .bar-row{ display:grid; grid-template-columns:38mm 1fr 22mm 24mm 24mm; gap:3mm; align-items:center; padding:2.4mm 0; border-bottom:1px solid var(--line); }
+  .funnel .bar-row.head{ font-size:7.8pt; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-3); border-bottom:1px solid var(--ink); padding-top:0; }
+  .funnel .bar{ height:5mm; border-radius:1mm; }
+  .funnel .bar i{ border-radius:1mm; }
+  .funnel .name{ font-weight:600; }
+  .funnel .r{ text-align:right; }
+
+  /* проблемы */
+  ol.issues{ list-style:none; counter-reset:i; margin:0; padding:0; }
+  ol.issues li{ counter-increment:i; display:grid; grid-template-columns:9mm 1fr; padding:3mm 0; border-bottom:1px solid var(--line); break-inside:avoid; }
+  ol.issues li::before{ content:counter(i); font-size:16pt; font-weight:700; color:var(--ink-3); line-height:1; }
+  ol.issues b{ display:block; font-size:10.5pt; margin-bottom:1mm; }
+  ol.issues .fix{ margin-top:1mm; }
+  ol.issues .fix::before{ content:"Что сделать: "; font-weight:600; }
+
+  /* блоки для копирования */
+  .copy{ break-inside:avoid; margin:0 0 4mm; }
+  .copy .t{ font-size:8.5pt; font-weight:600; color:var(--ink-2); margin-bottom:1.2mm; }
+  .copy pre{ margin:0; padding:3mm 3.5mm; background:var(--tint); border-left:2px solid var(--ink); font:8.5pt/1.55 var(--mono); white-space:pre-wrap; word-break:break-word; }
+
+  /* структура деревом */
+  .tree{ font:9pt/1.7 var(--mono); padding:3mm 3.5mm; border:1px solid var(--line); }
+
+  /* финальная страница */
+  .cta{ break-before:page; height:259mm; display:flex; flex-direction:column; }
+  .recap{ margin:22mm 0 0; }
+  .recap .big{ font-size:44pt; font-weight:800; letter-spacing:-0.03em; line-height:1; }
+  .recap .big span{ font-size:16pt; color:var(--ink-3); font-weight:600; letter-spacing:0; }
+  .recap .line{ display:grid; grid-template-columns:1fr 1fr; gap:6mm; margin-top:8mm; border-top:2px solid var(--ink); padding-top:4mm; }
+  .recap .v{ font-size:16pt; font-weight:700; letter-spacing:-0.01em; } .recap .k{ font-size:8.5pt; color:var(--ink-3); }
+  .cta .panel{ margin-top:auto; background:var(--ink); color:#fff; padding:14mm 12mm 12mm; border-radius:2mm; }
+  .cta .kicker{ color:#9AA0A8; }
+  .cta h2{ font-size:24pt; line-height:1.12; letter-spacing:-0.02em; margin:0 0 6mm; padding:0; }
+  .cta p{ color:#D5D8DC; font-size:10.5pt; max-width:140mm; }
+  .cta ul{ margin:5mm 0 8mm; padding:0; list-style:none; }
+  .cta li{ padding:2.4mm 0 2.4mm 6mm; border-top:1px solid #2A2E34; position:relative; font-size:10.5pt; }
+  .cta li::before{ content:""; position:absolute; left:0; top:4.6mm; width:2mm; height:2mm; background:var(--accent); }
+  .links{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; }
+  .links a{ display:block; text-decoration:none; color:#fff; border:1px solid #3A3F46; border-radius:1.5mm; padding:4mm 5mm; }
+  .links a.primary{ background:var(--accent); border-color:var(--accent); }
+  .links .l{ font-size:8pt; color:#C9D3FF; letter-spacing:.06em; text-transform:uppercase; }
+  .links a:not(.primary) .l{ color:#9AA0A8; }
+  .links .u{ font-size:14pt; font-weight:700; letter-spacing:-0.01em; margin-top:1mm; }
+  .cta .foot{ margin-top:6mm; font-size:8pt; color:#9AA0A8; }
+  a{ color:var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- ОБЛОЖКА -->
+<div class="cover">
+  <div class="brandbar"><span>Аудит Яндекс Директа</span><b>SibLead</b></div>
+  <h1>{{Школа / эксперт / продукт}}</h1>
+  <div class="meta">Реклама {{дд.мм.гггг – дд.мм.гггг}} · продажи {{дд.мм.гггг – дд.мм.гггг или «без данных о продажах»}}</div>
+
+  <div class="score">
+    <div class="big num">{{N}}<span>/100</span></div>
+    <div>
+      <span class="grade {{ok|warn|bad}}">{{A–F}}</span>
+      <div class="label">{{Отлично / Хорошо / Требует внимания / Плохо / Критично}}</div>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v num">{{1 234 567 ₽}}</div><div class="k">Расход за период</div></div>
+    <div class="kpi"><div class="v num bad">{{~345 000 ₽}}</div><div class="k">Под риском, {{28}}% бюджета</div></div>
+    <div class="kpi"><div class="v num {{ok|bad}}">{{ROMI −38% или CAC 80 000 ₽}}</div><div class="k">{{Окупаемость по выручке / Цена продажи}}</div></div>
+  </div>
+
+  <p class="summary">{{1–2 предложения: главный вывод с цифрой. Например: «Директ не окупается: 42% бюджета уходит в РСЯ, где до вебинара доходят 11% зарегистрированных против 31% на поиске».}}</p>
+
+  <!-- оглавление: убери пункты разделов, которых нет в отчёте -->
+  <div class="toc">
+    <div><b>01</b>Оценка и деньги</div><div><b>02</b>Воронка</div><div><b>03</b>Главные проблемы</div><div><b>04</b>Минус-фразы</div>
+    <div><b>05</b>Площадки</div><div><b>06</b>Структура и цели</div><div><b>07</b>Вставить в Директ</div><div><b>08</b>План</div>
+  </div>
+</div>
+
+<!-- ОЦЕНКА ПО КАТЕГОРИЯМ -->
+<section class="page">
+  <div class="kicker">Оценка</div>
+  <h2>По категориям</h2>
+  <table>
+    <tr><th>Категория</th><th class="r">Вес</th><th style="width:34mm">Балл</th><th class="r"></th><th>Проблемы</th><th>Замечания</th></tr>
+    <!-- строка на категорию; класс полосы: ok ≥75, warn 50–74, bad <50 -->
+    <tr><td>{{Метрика и цели}}</td><td class="r num">{{17%}}</td><td><div class="bar {{warn}}"><i style="--w:{{62}}%"></i></div></td><td class="r num">{{62}}</td><td class="ids">{{M3, M5}}</td><td class="ids">{{M2}}</td></tr>
+  </table>
+  <p class="small" style="margin-top:3mm">{{Пометки: «оценка неполная» у категорий, «Оценка без учёта воронки и продаж» — если нужно.}}</p>
+</section>
+
+<!-- ДЕНЬГИ -->
+<section>
+  <div class="kicker">Деньги</div>
+  <h2>Куда ушёл бюджет</h2>
+  <table>
+    <tr><td>Расход · клики · CTR · средняя цена клика</td><td class="r num">{{…}}</td></tr>
+    <tr><td>Регистрации · CPL · бюджет в месяц</td><td class="r num">{{…}}</td></tr>
+    <tr><td>Дошли до вебинара · цена дошедшего</td><td class="r num">{{…}}</td></tr>
+    <tr><td>Продажи · выручка · CAC</td><td class="r num">{{…}}</td></tr>
+    <tr><td>ROMI · ДРР по выручке</td><td class="r num">{{…}}</td></tr>
+    <tr><td><b>Под риском</b></td><td class="r num"><b>{{~… ₽ · …% бюджета}}</b></td></tr>
+  </table>
+  <p class="muted" style="margin-top:3mm">{{Из чего складывается: нецелевые запросы ~… ₽, мусорные площадки ~… ₽, кампании без результата ~… ₽.}}</p>
+</section>
+
+<!-- ВОРОНКА -->
+<section class="funnel">
+  <div class="kicker">Воронка</div>
+  <h2>От клика до оплаты</h2>
+  <div class="keep">
+  <div class="bar-row head"><div>Шаг</div><div></div><div class="r">Кол-во</div><div class="r">Конверсия</div><div class="r">Цена шага</div></div>
+  <!-- строки: Клики, Регистрации, Дошли до вебинара, Заявки, Продажи. --w: доля от кликов (логарифм не нужен: просто ширина ≥3% для видимости). Класс по ориентиру: ok / warn / bad; для кликов — без класса -->
+  <div class="bar-row"><div class="name">{{Регистрации}}</div><div class="bar {{warn}}"><i style="--w:{{40}}%"></i></div><div class="r num">{{1 240}}</div><div class="r num">{{7,1%}}</div><div class="r num">{{966 ₽}}</div></div>
+  </div>
+  <p class="small" style="margin-top:3mm">Ориентиры SibLead: конверсия сайта в регистрацию от 9%, доходимость от 30% (45%+ — хорошо), заявки от дошедших 5–15%, оплаты из заявок 15–30%.</p>
+
+  <h3>По кампаниям</h3>
+  <table>
+    <tr><th>Кампания</th><th class="r">Расход</th><th class="r">Рег.</th><th class="r">₽/рег</th><th class="r">Доход.</th><th class="r">₽/дошедш.</th><th class="r">Продажи</th><th class="r">CAC</th><th class="r">ROMI</th></tr>
+    <tr><td><span class="dot {{ok|warn|bad}}"></span>{{Поиск | Вебинар | Профессия}}</td><td class="r num">{{120 000}}</td><td class="r num">{{171}}</td><td class="r num">{{702}}</td><td class="r num">{{24%}}</td><td class="r num">{{2 927}}</td><td class="r num">{{3}}</td><td class="r num">{{40 000}}</td><td class="r num">{{25%}}</td></tr>
+  </table>
+  <p class="muted" style="margin-top:3mm">{{Выводы по воронке — 3–6 пунктов с цифрами, по списку из report-template.md. Короткими абзацами или списком.}}</p>
+</section>
+
+<!-- ГЛАВНЫЕ ПРОБЛЕМЫ -->
+<section class="page">
+  <div class="kicker">Главное</div>
+  <h2>Проблемы по деньгам</h2>
+  <ol class="issues">
+    <li><div><b>{{Проблема одной фразой}}</b><span class="muted">{{Цифры. Порог: … (ID проверки).}}</span><div class="fix">{{Конкретное действие.}}</div></div></li>
+  </ol>
+</section>
+
+<!-- МОДУЛИ -->
+<section class="keep">
+  <div class="kicker">Модуль 1</div>
+  <h2>Минус-фразы</h2>
+  <p>{{Сколько ушло на нецелевые запросы, % поиска.}}</p>
+  <table>
+    <tr><th>Запрос</th><th class="r">Расход</th><th class="r">Клики</th><th class="r">Рег.</th><th>Почему нецелевой</th></tr>
+    <tr><td>{{python курс слив}}</td><td class="r num">{{4 120}}</td><td class="r num">{{37}}</td><td class="r num">{{0}}</td><td class="muted">{{ищет пиратскую копию}}</td></tr>
+  </table>
+  <p class="small" style="margin-top:2mm">{{Спорные — наблюдать: …; добавить в ключи: …}}</p>
+</section>
+
+<section class="keep">
+  <div class="kicker">Модуль 2</div>
+  <h2>Мусорные площадки</h2>
+  <p>{{Сколько ушло, % сетей.}}</p>
+  <table>
+    <tr><th>Площадка</th><th class="r">Расход</th><th class="r">Клики</th><th class="r">CTR</th><th class="r">Рег.</th><th>Почему</th></tr>
+    <tr><td>{{com.example.flashlight}}</td><td class="r num">{{8 900}}</td><td class="r num">{{410}}</td><td class="r num">{{6,2%}}</td><td class="r num">{{0}}</td><td class="muted">{{приложение-фонарик, случайные клики}}</td></tr>
+  </table>
+</section>
+
+<section>
+  <div class="kicker">Модуль 3</div>
+  <h2>Структура кампаний</h2>
+  <p>{{Оценка текущей структуры с цифрами.}}</p>
+  <h3>Целевая структура</h3>
+  <div class="tree">{{Поиск · Вебинар · Профессия · РФ<br>Поиск · Бренд<br>РСЯ · Ретаргетинг · Зарегистрировались, не дошли}}</div>
+  <h3>Порядок перехода</h3>
+  <p>{{Шаги, без сброса обучения.}}</p>
+</section>
+
+<section>
+  <div class="kicker">Модуль 4</div>
+  <h2>Цели</h2>
+  <p>{{Как сейчас и что не так, с цифрами (расхождение платформы и Директа).}}</p>
+  <h3>Как настроить</h3>
+  <p>{{Нумерованные шаги.}}</p>
+</section>
+
+<!-- ГОТОВО К КОПИРОВАНИЮ -->
+<section class="page">
+  <div class="kicker">Готово к копированию</div>
+  <h2>Вставить в Директ</h2>
+  <div class="copy"><div class="t">{{Общий набор минус-фраз}}</div><pre>{{-слив -складчина -торрент …}}</pre></div>
+  <div class="copy"><div class="t">{{Кампания «…» — минус-фразы}}</div><pre>{{…}}</pre></div>
+  <div class="copy"><div class="t">{{Кампания «…» — запрещённые площадки}}</div><pre>{{example-game.com
+com.example.flashlight}}</pre></div>
+</section>
+
+<!-- ПЛАН -->
+<section>
+  <div class="kicker">План</div>
+  <h2>Что сделать</h2>
+  <table>
+    <tr><th style="width:26mm">Когда</th><th>Действие</th><th>Где</th><th>Зачем</th></tr>
+    <tr><td><b>Сегодня</b></td><td>{{…}}</td><td class="muted">{{…}}</td><td class="muted">{{…}}</td></tr>
+    <tr><td><b>Эта неделя</b></td><td>{{…}}</td><td class="muted">{{…}}</td><td class="muted">{{…}}</td></tr>
+    <tr><td><b>Месяц</b></td><td>{{…}}</td><td class="muted">{{…}}</td><td class="muted">{{…}}</td></tr>
+  </table>
+</section>
+
+<section>
+  <div class="kicker">Ограничения</div>
+  <p class="small">{{Что не оценено и почему; откуда tCPL; ROMI по выручке без маржи и комиссий; лаг продаж. Повторить аудит через 2–4 недели после правок.}}</p>
+</section>
+
+<!-- ФИНАЛЬНАЯ СТРАНИЦА: текст по варианту из cta.md -->
+<div class="cta">
+  <div class="brandbar"><span>Аудит Яндекс Директа</span><b>SibLead</b></div>
+  <div class="recap">
+    <div class="kicker">Итог аудита</div>
+    <div class="big num">{{N}}<span>/100 · {{грейд}}</span></div>
+    <div class="line">
+      <div><div class="v num">{{~345 000 ₽ за период}}</div><div class="k">можно перестать терять</div></div>
+      <div><div class="v">{{главная потеря: доходимость 14%}}</div><div class="k">где воронка теряет больше всего</div></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="kicker">Следующий шаг</div>
+    <h2>{{Заголовок из cta.md}}</h2>
+    <p>{{Абзац из cta.md с цифрами этого аудита.}}</p>
+    <ul>
+      <li>{{Пункт предложения 1}}</li>
+      <li>{{Пункт предложения 2}}</li>
+    </ul>
+    <div class="links">
+      <a class="primary" href="https://t.me/igrayver"><div class="l">Записаться на консультацию</div><div class="u">t.me/igrayver</div></a>
+      <a href="https://siblead.ru"><div class="l">О команде</div><div class="u">siblead.ru</div></a>
+    </div>
+    <div class="foot">Пришлите этот PDF при записи — разговор начнётся с ваших цифр.</div>
+  </div>
+</div>
+
+</body>
+</html>
