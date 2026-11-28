@@ -192,10 +192,10 @@
 
   <h3>По кампаниям</h3>
   <table class="camps">
-    <tr><th>Кампания</th><th class="r">Потрачено</th><th class="r">Регистраций</th><th class="r">CPL, ₽</th><th class="r">Пришли на вебинар</th><th class="r">₽ за пришедшего</th><th class="r">Продаж</th><th class="r">CAC, ₽</th><th class="r">ROMI</th></tr>
+    <tr><th>Кампания</th><th class="r">Потрачено</th><th class="r">Регистраций</th><th class="r">CPL, ₽</th><th class="r">Пришли из 100</th><th class="r">₽ за пришедшего</th><th class="r">Продаж</th><th class="r">CAC, ₽</th><th class="r">ROMI</th></tr>
     <tr><td><span class="dot {{ok|warn|bad}}"></span>{{Поиск | Вебинар | Профессия}}</td><td class="r num">{{120 000}}</td><td class="r num">{{171}}</td><td class="r num">{{702}}</td><td class="r num">{{24%}}</td><td class="r num">{{2 927}}</td><td class="r num">{{3}}</td><td class="r num">{{40 000}}</td><td class="r num">{{+25%}}</td></tr>
   </table>
-  <p class="muted" style="margin-top:3mm">{{Выводы по воронке — 3–6 пунктов с цифрами, по списку из report-template.md. Короткими абзацами или списком.}}</p>
+  <p class="muted" style="margin-top:3mm">{{Выводы по воронке — 3–6 пунктов с цифрами, по списку из report-template.md. Укажи, по какому этапу базиса сравнивал кампании.}}</p>
 </section>
 
 <!-- ЧТО ИЗМЕНИЛОСЬ / КАЧЕЛИ: только если была диагностика; иначе удалить блок целиком -->
@@ -292,6 +292,15 @@
   </ol>
 </section>
 
+<!-- ПОДРОБНО ПО КАТЕГОРИЯМ: только WARN и FAIL, не вошедшие в модули; если таких нет — удалить -->
+<section>
+  <div class="kicker">Подробно</div>
+  <h2>Остальные замечания</h2>
+  <ol class="issues">
+    <li><div><b>{{Замечание одной фразой}}</b><span class="muted">{{Цифры и смысл.}}</span> <span class="ids">{{ID}}</span><div class="fix">{{Что сделать и где.}}</div></div></li>
+  </ol>
+</section>
+
 <!-- ГОТОВО К КОПИРОВАНИЮ -->
 <section>
   <div class="kicker">Готово к копированию</div>
@@ -357,6 +366,8 @@ com.example.flashlight}}</pre></div>
     </div>
     <div class="foot">Пришлите этот PDF — разговор начнётся с ваших цифр.</div>
   </div>
+  <!-- только если был новый сбой: блок «Для разработчиков аудитора» из self-recovery.md; иначе удалить -->
+  <p class="small" style="margin-top:4mm">{{Для разработчиков аудитора: сбой — …; обход — …. Перешлите в t.me/igrayver.}}</p>
 </div>
 
 </body>
