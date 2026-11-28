@@ -198,7 +198,7 @@
   <p class="muted" style="margin-top:3mm">{{Выводы по воронке — 3–6 пунктов с цифрами, по списку из report-template.md. Короткими абзацами или списком.}}</p>
 </section>
 
-<!-- ЧТО ИЗМЕНИЛОСЬ: только если была диагностика; иначе удалить блок целиком -->
+<!-- ЧТО ИЗМЕНИЛОСЬ / КАЧЕЛИ: только если была диагностика; иначе удалить блок целиком -->
 <section class="keep">
   <div class="kicker">Что изменилось</div>
   <h2>{{Почему стало хуже с дд.мм}}</h2>
@@ -206,6 +206,12 @@
   <table>
     <tr><th>Что сравнивали</th><th class="r">Доля до</th><th class="r">Доля после</th><th class="r">Качество до</th><th class="r">Качество после</th></tr>
     <tr><td><span class="dot {{bad}}"></span>{{РСЯ, доля расхода}}</td><td class="r num">{{35%}}</td><td class="r num">{{61%}}</td><td class="r num">{{пришли 26%}}</td><td class="r num">{{пришли 12%}}</td></tr>
+  </table>
+  <!-- для режима «Качели»: таблица по неделям или потокам; если не было — удалить -->
+  <h3>{{По неделям}}</h3>
+  <table>
+    <tr><th>Неделя</th><th class="r">Потрачено</th><th class="r">CPL, ₽</th><th class="r">Пришли из 100</th><th class="r">Продаж</th><th class="r">CAC, ₽</th><th>Что происходило</th></tr>
+    <tr><td><span class="dot {{ok|bad}}"></span>{{06.10–12.10}}</td><td class="r num">{{110 000}}</td><td class="r num">{{820}}</td><td class="r num">{{27}}</td><td class="r num">{{3}}</td><td class="r num">{{36 700}}</td><td class="muted">{{эфир 09.10; сети 32% расхода}}</td></tr>
   </table>
   <p style="margin-top:3mm">{{1–3 драйвера с цифрами и действием. Что меняли в эти даты. «Возможная причина: …» — отдельными строками.}}</p>
 </section>
