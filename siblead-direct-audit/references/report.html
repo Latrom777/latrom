@@ -140,7 +140,7 @@
   <div class="kpis">
     <div class="kpi"><div class="v num">{{1 234 567 ₽}}</div><div class="k">Расход за период</div></div>
     <div class="kpi"><div class="v num bad">{{~345 000 ₽}}</div><div class="k">Под риском, {{28}}% бюджета</div></div>
-    <div class="kpi"><div class="v num {{ok|bad}}">{{−38% или 80 000 ₽}}</div><div class="k">{{Реклама окупилась на (выручка минус расход) / Цена одной продажи}}</div></div>
+    <div class="kpi"><div class="v num {{ok|bad}}">{{ROMI −38%}}</div><div class="k">{{окупаемость: вернулось 62 ₽ на каждые 100 ₽ рекламы}}</div></div>
   </div>
 
   <p class="summary">{{1–2 предложения: главный вывод с цифрой. Например: «Директ не окупается: 42% бюджета уходит в РСЯ, где до вебинара доходят 11% зарегистрированных против 31% на поиске».}}</p>
@@ -170,10 +170,10 @@
   <h2>Куда ушёл бюджет</h2>
   <table>
     <tr><td>Потрачено на рекламу · переходов на сайт · цена одного перехода</td><td class="r num">{{…}}</td></tr>
-    <tr><td>Регистраций · цена одной регистрации · бюджет в месяц</td><td class="r num">{{…}}</td></tr>
+    <tr><td>Регистраций · CPL (цена регистрации) · бюджет в месяц</td><td class="r num">{{…}}</td></tr>
     <tr><td>Пришли на вебинар · цена одного пришедшего</td><td class="r num">{{…}}</td></tr>
-    <tr><td>Продаж · выручка · цена одной продажи</td><td class="r num">{{…}}</td></tr>
-    <tr><td>Реклама окупилась на · доля рекламы в выручке</td><td class="r num">{{…}}</td></tr>
+    <tr><td>Продаж · выручка · CAC (цена одной продажи)</td><td class="r num">{{…}}</td></tr>
+    <tr><td>ROMI (окупаемость) · ДРР (доля рекламы в выручке)</td><td class="r num">{{…}}</td></tr>
     <tr><td><b>Под риском</b></td><td class="r num"><b>{{~… ₽ · …% бюджета}}</b></td></tr>
   </table>
   <p class="muted" style="margin-top:3mm">{{Из чего складывается: нецелевые запросы ~… ₽, мусорные площадки ~… ₽, кампании без результата ~… ₽.}}</p>
@@ -192,8 +192,8 @@
 
   <h3>По кампаниям</h3>
   <table class="camps">
-    <tr><th>Кампания</th><th class="r">Потрачено</th><th class="r">Регистраций</th><th class="r">₽ за регистрацию</th><th class="r">Пришли на вебинар</th><th class="r">₽ за пришедшего</th><th class="r">Продаж</th><th class="r">₽ за продажу</th><th class="r">Вернулось с 100 ₽</th></tr>
-    <tr><td><span class="dot {{ok|warn|bad}}"></span>{{Поиск | Вебинар | Профессия}}</td><td class="r num">{{120 000}}</td><td class="r num">{{171}}</td><td class="r num">{{702}}</td><td class="r num">{{24%}}</td><td class="r num">{{2 927}}</td><td class="r num">{{3}}</td><td class="r num">{{40 000}}</td><td class="r num">{{125 ₽}}</td></tr>
+    <tr><th>Кампания</th><th class="r">Потрачено</th><th class="r">Регистраций</th><th class="r">CPL, ₽</th><th class="r">Пришли на вебинар</th><th class="r">₽ за пришедшего</th><th class="r">Продаж</th><th class="r">CAC, ₽</th><th class="r">ROMI</th></tr>
+    <tr><td><span class="dot {{ok|warn|bad}}"></span>{{Поиск | Вебинар | Профессия}}</td><td class="r num">{{120 000}}</td><td class="r num">{{171}}</td><td class="r num">{{702}}</td><td class="r num">{{24%}}</td><td class="r num">{{2 927}}</td><td class="r num">{{3}}</td><td class="r num">{{40 000}}</td><td class="r num">{{+25%}}</td></tr>
   </table>
   <p class="muted" style="margin-top:3mm">{{Выводы по воронке — 3–6 пунктов с цифрами, по списку из report-template.md. Короткими абзацами или списком.}}</p>
 </section>
@@ -271,7 +271,7 @@
   </table>
   <h3>Какие объявления приводят тех, кто доходит и покупает</h3>
   <table>
-    <tr><th>Объявление</th><th class="r">Потрачено</th><th class="r">Регистраций</th><th class="r">Пришли из 100</th><th class="r">₽ за пришедшего</th><th class="r">₽ за продажу</th></tr>
+    <tr><th>Объявление</th><th class="r">Потрачено</th><th class="r">Регистраций</th><th class="r">Пришли из 100</th><th class="r">₽ за пришедшего</th><th class="r">CAC, ₽</th></tr>
     <tr><td><span class="dot {{ok|bad}}"></span>{{лицо эксперта · «За 2 часа покажу…» · дата эфира}}</td><td class="r num">{{40 000}}</td><td class="r num">{{60}}</td><td class="r num">{{31}}</td><td class="r num">{{2 150}}</td><td class="r num">{{40 000}}</td></tr>
   </table>
   <h3>Что работает у вас</h3>
@@ -308,12 +308,16 @@ com.example.flashlight}}</pre></div>
   </table>
 </section>
 
-<!-- СЛОВАРЬ: только термины, которые встретились в отчёте -->
+<!-- СЛОВАРЬ: CPL, CAC, ROMI, ДРР — всегда, если встретились; плюс другие термины, которые встретились в отчёте -->
 <section>
   <div class="kicker">Словарь</div>
   <h2>Термины в этом отчёте</h2>
   <table>
-    <tr><td style="width:42mm"><b>{{РСЯ}}</b></td><td class="muted">{{Рекламная сеть Яндекса: реклама на сайтах и в приложениях-партнёрах, а не в поиске.}}</td></tr>
+    <tr><td style="width:42mm"><b>CPL</b></td><td class="muted">Цена одной регистрации: расход на рекламу / число регистраций.</td></tr>
+    <tr><td><b>CAC</b></td><td class="muted">Цена одной продажи: расход на рекламу / число оплат.</td></tr>
+    <tr><td><b>ROMI</b></td><td class="muted">Окупаемость рекламы: (выручка − расход) / расход. 0% — вышли в ноль, −38% — вернули 62 ₽ на каждые 100 ₽.</td></tr>
+    <tr><td><b>ДРР</b></td><td class="muted">Доля рекламных расходов в выручке: расход / выручка. 160% — потратили на рекламу в 1,6 раза больше, чем получили.</td></tr>
+    <tr><td><b>{{РСЯ}}</b></td><td class="muted">{{Рекламная сеть Яндекса: реклама на сайтах и в приложениях-партнёрах, а не в поиске.}}</td></tr>
   </table>
 </section>
 
