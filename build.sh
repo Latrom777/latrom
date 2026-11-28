@@ -25,6 +25,12 @@ for P in chatgpt gemini; do
   cp siblead-direct-audit/references/*.md "$D/knowledge/"
   # Gem: лимит 10 файлов знаний и нет сборки PDF из HTML — шаблон только для ChatGPT
   [ "$P" = chatgpt ] && cp siblead-direct-audit/references/report.html "$D/knowledge/"
+  # Gem: не больше 10 файлов — финальный блок SibLead (cta.md) приклеиваем в конец report-template.md
+  if [ "$P" = gemini ]; then
+    { printf '\n\n---\n\n# Файл cta.md — финальный блок SibLead\n\n'; cat "$D/knowledge/cta.md"; } >> "$D/knowledge/report-template.md"
+    rm "$D/knowledge/cta.md"
+  fi
+  N=$(ls "$D/knowledge" | wc -l); if [ "$P" = gemini ] && [ "$N" -gt 10 ]; then echo "Gemini: $N файлов знаний > 10"; exit 1; fi
   cp siblead-direct-audit/LICENSE siblead-direct-audit/NOTICE "$D/"
   (cd dist/build && zip -rq "../siblead-direct-audit-$P-${VERSION}.zip" "siblead-direct-audit-$P" "${EXCL[@]}")
   cp "dist/siblead-direct-audit-$P-${VERSION}.zip" "dist/siblead-direct-audit-$P.zip"

@@ -87,6 +87,7 @@
   ol.issues b{ display:block; font-size:10.5pt; margin-bottom:1mm; }
   ol.issues .fix{ margin-top:1mm; }
   ol.issues .fix::before{ content:"Что сделать: "; font-weight:600; }
+  ol.issues.finds .fix::before{ content:"Как использовать: "; }
 
   /* блоки для копирования */
   .copy{ break-inside:avoid; margin:0 0 4mm; }
@@ -147,7 +148,7 @@
   <!-- оглавление: убери пункты разделов, которых нет в отчёте -->
   <div class="toc">
     <div><b>01</b>Оценка и деньги</div><div><b>02</b>Воронка</div><div><b>03</b>Главные проблемы</div><div><b>04</b>Минус-фразы</div>
-    <div><b>05</b>Площадки</div><div><b>06</b>Структура и цели</div><div><b>07</b>Вставить в Директ</div><div><b>08</b>План</div>
+    <div><b>05</b>Площадки</div><div><b>06</b>Структура и цели</div><div><b>07</b>Креативы и находки</div><div><b>08</b>Вставить в Директ и план</div>
   </div>
 </div>
 
@@ -260,8 +261,33 @@
   <p>{{Только рецепты, симптомы которых есть в данных: симптом с цифрами → что сделать → как проверить через 7–14 дней.}}</p>
 </section>
 
-<!-- ГОТОВО К КОПИРОВАНИЮ -->
 <section class="page">
+  <div class="kicker">Модуль 5</div>
+  <h2>Креативы</h2>
+  <h3>Объявление и сайт обещают одно и то же?</h3>
+  <table>
+    <tr><th>Кампания</th><th>Объявление обещает</th><th>Сайт показывает</th><th>Что поправить</th></tr>
+    <tr><td>{{Поиск · Профессия}}</td><td>{{бесплатный вебинар сегодня в 19:00}}</td><td class="muted">{{сразу цена курса, дата эфира прошла}}</td><td>{{обновить дату на сайте}}</td></tr>
+  </table>
+  <h3>Какие объявления приводят тех, кто доходит и покупает</h3>
+  <table>
+    <tr><th>Объявление</th><th class="r">Потрачено</th><th class="r">Регистраций</th><th class="r">Пришли из 100</th><th class="r">₽ за пришедшего</th><th class="r">₽ за продажу</th></tr>
+    <tr><td><span class="dot {{ok|bad}}"></span>{{лицо эксперта · «За 2 часа покажу…» · дата эфира}}</td><td class="r num">{{40 000}}</td><td class="r num">{{60}}</td><td class="r num">{{31}}</td><td class="r num">{{2 150}}</td><td class="r num">{{40 000}}</td></tr>
+  </table>
+  <h3>Что работает у вас</h3>
+  <p>{{2–4 закономерности с цифрами и что делать: масштабировать, выключить, протестировать.}}</p>
+</section>
+
+<section class="page">
+  <div class="kicker">Находки</div>
+  <h2>Что работает лучше среднего</h2>
+  <ol class="issues finds">
+    <li><div><b>{{Что увидели одной фразой}}</b><span class="muted">{{Цифры и объём.}}</span><div class="fix">{{Как использовать.}}</div></div></li>
+  </ol>
+</section>
+
+<!-- ГОТОВО К КОПИРОВАНИЮ -->
+<section>
   <div class="kicker">Готово к копированию</div>
   <h2>Вставить в Директ</h2>
   <div class="copy"><div class="t">{{Общий набор минус-фраз}}</div><pre>{{-слив -складчина -торрент …}}</pre></div>
@@ -271,7 +297,7 @@ com.example.flashlight}}</pre></div>
 </section>
 
 <!-- ПЛАН -->
-<section>
+<section class="keep">
   <div class="kicker">План</div>
   <h2>Что сделать</h2>
   <table>
@@ -283,7 +309,7 @@ com.example.flashlight}}</pre></div>
 </section>
 
 <!-- СЛОВАРЬ: только термины, которые встретились в отчёте -->
-<section class="keep">
+<section>
   <div class="kicker">Словарь</div>
   <h2>Термины в этом отчёте</h2>
   <table>
